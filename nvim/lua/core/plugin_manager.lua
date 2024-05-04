@@ -180,6 +180,7 @@ local plugins = {
       "rcarriga/nvim-notify",
     }
   },
+	{ "sindrets/diffview.nvim" },
 }
 local opts = {}
 

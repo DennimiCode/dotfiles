@@ -45,7 +45,11 @@ vim.api.nvim_set_keymap(
 
 vim.api.nvim_set_keymap("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true }) ]]
 
--- Deguggin
+-- Git
+vim.keymap.set('n', '<leader>gd', ":DiffviewOpen<CR>", { silent = true })
+vim.keymap.set('n', '<leader>gf', ":DiffviewClose<CR>", { silent = true })
+
+-- Debuggin
 vim.keymap.set("n", "<leader>dt", ":DapToggleBreakpoint<CR>", { silent = true })
 vim.keymap.set("n", "<leader>dx", ":DapTerminate<CR>", { silent = true })
 vim.keymap.set("n", "<leader>do", ":DapStepOver<CR>", { silent = true })
