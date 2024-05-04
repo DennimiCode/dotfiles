@@ -41,7 +41,7 @@ local plugins = {
       "leoluz/nvim-dap-go",
       "mfussenegger/nvim-dap",
       "rcarriga/nvim-dap-ui",
-	  "nvim-neotest/nvim-nio",
+      "nvim-neotest/nvim-nio",
     },
   },
   {
@@ -144,7 +144,7 @@ local plugins = {
       vim.fn["mkdp#util#install"]()
     end,
   },
-  { "terryma/vim-multiple-cursors" },
+  { "mg979/vim-visual-multi" },
   { "cappyzawa/trim.nvim" },
   -- TODO: Switch to this auto-save plugin, when they fix the performance issues
   -- {
@@ -167,6 +167,11 @@ local plugins = {
   },
   { "terrortylor/nvim-comment" },
   { "stevearc/dressing.nvim" },
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+  },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
