@@ -13,6 +13,8 @@ sudo apt full-upgrade -y
 sudo apt remove -y default-jre default-jdk transmission-gtk
 sudo apt install -y ca-certificates curl gnupg wget gpg apt-transport-https software-properties-common
 
+sudo apt-add-repository non-free
+
 # NodeJS
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 echo "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | \
@@ -44,7 +46,7 @@ echo "deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg] h
 # Signal desktop
 wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
 cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | \
+echo "deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main" | \
   sudo tee /etc/apt/sources.list.d/signal-xenial.list
 rm signal-desktop-keyring.gpg
 
@@ -62,7 +64,7 @@ curl -fsSL https://packages.microsoft.com/config/$UBUNTU_DISTRO_NAME/$UBUNTU_VER
 
 # MySQL server
 wget 'https://repo.mysql.com//mysql-apt-config_0.8.30-1_all.deb' -O mysql-apt-config.deb
-sudo apt install -y ./mysql-apt-config.deb
+sudo dpkg -i ./mysql-apt-config.deb
 rm mysql-apt-config.deb
 
 # PostgreSQL server
@@ -75,10 +77,17 @@ rm ACCC4CF8.asc
 sudo apt update
 
 sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape skypeforlinux signal-desktop qbittorrent \
-  mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client mysql-workbench-community \
-  dotnet8 dotnet6 gdebi gcc g++ clangd clang python3 python3-pip python3-venv golang nodejs git \
-  build-essential libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils \
-  virt-manager docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 \
+  gdebi gcc g++ clangd clang python3 python3-pip python3-venv golang nodejs git build-essential \
+  libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager \
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin yaru-theme*
+
+# Install & upply papirus folders
+wget -qO- https://git.io/papirus-folders-install | sh
+papirus-folders -C green --theme Papirus-Dark
+
+# Install zshrc config
+sudo mv dotfiles/.zshrc /home/$USER_NAME/
 
 # Download DEB apps
 wget 'https://desktop.docker.com/linux/main/amd64/docker-desktop-4.26.1-amd64.deb' -O docker-desktop.deb
@@ -99,6 +108,7 @@ wget 'https://download-cdn.jetbrains.com/rider/JetBrains.Rider-2023.3.2.tar.gz' 
 wget 'https://eclipse.mirror.garr.it/oomph/epp/2023-12/R/eclipse-inst-jre-linux64.tar.gz' -O eclipse.tar.gz
 wget 'https://td.telegram.org/tlinux/tsetup.4.16.8.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
+wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.0/macOS-Monterey.tar.gz' -O macOS-Monterey.tar.gz
 
 # Install downloaded DEB apps
 sudo apt install -y ./docker-desktop.deb
@@ -118,12 +128,13 @@ flatpak install -y flathub com.github.IsmaelMartinez.teams_for_linux
 flatpak install -y flathub com.usebottles.bottles
 
 # Install tar.gz apps
-sudo tar -zxf jetbrains-datagrip.tar.gz -C /opt/
-sudo tar -zxf jetbrain-idea.tar.gz -C /opt/
-sudo tar -zxf jetbrains-rider.tar.gz -C /opt/
-sudo tar -zxf telegram.tar.xz -C /opt/
-sudo tar -zxf postman.tar.gz -C /opt/
-tar -zxf eclipse.tar.gz
+sudo tar -vzxf jetbrains-datagrip.tar.gz -C /opt/
+sudo tar -vzxf jetbrains-idea.tar.gz -C /opt/
+sudo tar -vzxf jetbrains-rider.tar.gz -C /opt/
+sudo tar -vxf telegram.tar.xz -C /opt/
+sudo tar -vzxf postman.tar.gz -C /opt/
+sudo tar -vzxf macOS-Monterey.tar.gz -C /usr/share/icons/
+tar -vzxf eclipse.tar.gz
 
 # Download & install AppImages
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
@@ -138,6 +149,9 @@ sudo mv nvim.appimage /usr/local/bin/nvim
 sudo mv krita.appimage /opt/
 sudo mv bitwarden.appimage /opt/
 
+# Install neovim config
+sudo mv dotfiles/nvim/ /home/$USER_NAME/.config/nvim/
+
 # Use dark theme for MySQL workbench
 git clone https://github.com/mleandrojr/mysql-workbench-dark-theme.git
 sudo mv mysql-workbench-dark-theme/code_editor.xml /usr/share/mysql-workbench/data/
@@ -146,7 +160,7 @@ sudo mv mysql-workbench-dark-theme/code_editor.xml /usr/share/mysql-workbench/da
 sudo /opt/mssql/bin/mssql-conf setup
 
 # Add current user to KVM
-gpasswd -a $USER_NAME  libvirt
+gpasswd -a $USER_NAME libvirt
 
 # Remove installed DEB package
 rm jetbrains-datagrip.tar.gz
@@ -155,6 +169,7 @@ rm jetbrains-rider.tar.gz
 rm telegram.tar.xz
 rm postman.tar.gz
 rm eclipse.tar.gz
+rm macOS-Monterey.tar.gz
 
 rm -rf mysql-workbench-dark-theme/
 
@@ -173,3 +188,6 @@ rm zoom.deb
 sudo systemctl start mongod
 sudo systemctl enable mongod
 sudo systemctl status mongod
+
+chmod u+x eclipse-installer/eclipse-inst
+eclipse-installer/eclipse-inst
