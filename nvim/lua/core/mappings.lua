@@ -6,10 +6,10 @@ vim.keymap.set("n", "<leader>E", ":Neotree toggle float reveal <CR>", { silent =
 vim.keymap.set("n", "<leader>o", ":Neotree toggle float git_status<CR>", { silent = true })
 
 -- Navigation
-vim.keymap.set("n", "<c-k>", ":wincmd k<CR>", { silent = true })
-vim.keymap.set("n", "<c-j>", ":wincmd j<CR>", { silent = true })
-vim.keymap.set("n", "<c-h>", ":wincmd h<CR>", { silent = true })
-vim.keymap.set("n", "<c-l>", ":wincmd l<CR>", { silent = true })
+vim.keymap.set("n", "<C-k>", ":wincmd k<CR>", { silent = true })
+vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", { silent = true })
+vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", { silent = true })
+vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", { silent = true })
 
 -- Splits
 vim.keymap.set("n", "|", ":vsplit<CR>", { silent = true })
@@ -33,17 +33,15 @@ vim.keymap.set("n", "<leader>td", function() require("trouble").toggle("document
 vim.keymap.set("n", "<leader>tq", function() require("trouble").toggle("quickfix") end, { silent = true })
 vim.keymap.set("n", "<leader>tl", function() require("trouble").toggle("loclist") end, { silent = true })
 
---[[ vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
+-- Compiler
+vim.api.nvim_set_keymap('n', '<F6>', "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap(
-	"n",
-	"<S-F6>",
-	"<cmd>CompilerStop<cr>" -- (Optional, to dispose all tasks before redo)
-		.. "<cmd>CompilerRedo<cr>",
-	{ noremap = true, silent = true }
-)
+vim.api.nvim_set_keymap('n', '<S-F6>',
+     "<cmd>CompilerStop<cr>"
+  .. "<cmd>CompilerRedo<cr>",
+ { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true }) ]]
+vim.api.nvim_set_keymap('n', '<S-F7>', "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
 
 -- Git
 vim.keymap.set('n', '<leader>gd', ":DiffviewOpen<CR>", { silent = true })
@@ -57,13 +55,15 @@ vim.keymap.set("n", "<leader>dl", ":lua require'dap'.run_last()<CR>", { silent =
 vim.keymap.set("n", "<leader>dc", ":lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
 vim.keymap.set("n", "<leader>lp", "lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
 vim.keymap.set("n", "<F5>", ":lua require'dap'.continue()<CR>")
+vim.keymap.set("n", "<S-F5>", ":lua require'dap'.close()<CR>")
+vim.keymap.set("n", "<C-S-F5>", ":lua require'dap'.restart()<CR>")
 vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>", { silent = true })
 vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>", { silent = true })
 vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>", { silent = true })
 
 -- Tabs
 vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>", { silent = true })
-vim.keymap.set("n", "<s-Tab>", ":BufferLineCyclePrev<CR>", { silent = true })
+vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { silent = true })
 vim.keymap.set("n", "<leader>x", ":BufferLinePickClose<CR>", { silent = true })
 vim.keymap.set("n", "<leader>X", ":BufferLineCloseRight<CR>", { silent = true })
 vim.keymap.set("n", "<leader>s", ":BufferLineSortByTabs<CR>", { silent = true })
