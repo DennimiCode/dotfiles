@@ -6,6 +6,7 @@ require("mason-null-ls").setup({
     "google-java-format",
     "sqlfmt",
     "hadolint",
+    "cspell",
   },
   automatic_installation = true,
 })

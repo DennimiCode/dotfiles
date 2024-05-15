@@ -18,10 +18,10 @@ vim.notify = require("notify")
 
 if os.getenv("HOME") == nil then
 	vim.cmd([[
-  set shell=pwsh
-  set shellcmdflag=-command
-  set shellquote=\"
-  set shellxquote=
+    set shell=pwsh
+    set shellcmdflag=-command
+    set shellquote=\"
+    set shellxquote=
 ]])
 else
 	vim.o.shell = vim.o.shell

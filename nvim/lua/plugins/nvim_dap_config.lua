@@ -23,12 +23,6 @@ dap.adapters.netcoredbg = {
 	args = { "--interpreter=vscode" },
 }
 
-dap.adapters.lldb = {
-	type = "executable",
-	command = "/usr/bin/lldb-vscode",
-	name = "lldb",
-}
-
 dap.configurations.cs = {
 	{
 		type = "coreclr",
@@ -38,6 +32,12 @@ dap.configurations.cs = {
 			return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. osdebugpath, "file")
 		end,
 	},
+}
+
+dap.adapters.lldb = {
+	type = "executable",
+	command = "/usr/bin/lldb-vscode",
+	name = "lldb",
 }
 
 dap.configurations.cpp = {

@@ -14,8 +14,8 @@ require("mason-lspconfig").setup {
     "jdtls",
     "kotlin_language_server",
     "gradle_ls",
-    -- TODO: Enable sqls language server, when they fix Golang errors
-    -- "sqls",
+    --TODO: Enable sqls language server, when they fix Golang errors
+    "sqls",
     "bashls",
     "powershell_es",
     "dockerls",
