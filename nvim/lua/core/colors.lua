@@ -1,5 +1,9 @@
 require("onedark").setup({
 	style = "darker",
+	diagnostics = {
+		darker = true,
+		undercurl = true,
+	},
 })
 require("onedark").load()
 
