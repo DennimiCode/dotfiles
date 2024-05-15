@@ -17,14 +17,14 @@ vim.cmd("hi colorcolumn guibg=#F4935B")
 vim.notify = require("notify")
 
 if os.getenv("HOME") == nil then
-  vim.cmd([[
+	vim.cmd([[
   set shell=pwsh
   set shellcmdflag=-command
   set shellquote=\"
   set shellxquote=
 ]])
 else
-  vim.o.shell = vim.o.shell
+	vim.o.shell = vim.o.shell
 end
 
 -- Mouse
@@ -53,43 +53,43 @@ vim.opt.smartindent = true
 
 -- Python indent setup
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "py",
-  callback = function()
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.tabstop = 4
-    vim.opt_local.softtabstop = 4
-    vim.opt_local.colorcolumn = "80"
-  end,
+	pattern = "py",
+	callback = function()
+		vim.opt_local.shiftwidth = 4
+		vim.opt_local.tabstop = 4
+		vim.opt_local.softtabstop = 4
+		vim.opt_local.colorcolumn = "80"
+	end,
 })
 
 -- GO indent setup
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",
-  callback = function()
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.tabstop = 4
-    vim.opt_local.softtabstop = 4
-  end,
+	pattern = "go",
+	callback = function()
+		vim.opt_local.shiftwidth = 4
+		vim.opt_local.tabstop = 4
+		vim.opt_local.softtabstop = 4
+	end,
 })
 
 -- C# Lang indent setup
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "cs",
-  callback = function()
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.tabstop = 4
-    vim.opt_local.softtabstop = 4
-  end,
+	pattern = "cs",
+	callback = function()
+		vim.opt_local.shiftwidth = 4
+		vim.opt_local.tabstop = 4
+		vim.opt_local.softtabstop = 4
+	end,
 })
 
 -- Rust indent setup
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "rs",
-  callback = function()
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.tabstop = 4
-    vim.opt_local.softtabstop = 4
-  end,
+	pattern = "rs",
+	callback = function()
+		vim.opt_local.shiftwidth = 4
+		vim.opt_local.tabstop = 4
+		vim.opt_local.softtabstop = 4
+	end,
 })
 
 vim.cmd([[highlight clear LineNr]])

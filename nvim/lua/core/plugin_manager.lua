@@ -15,6 +15,7 @@ vim.g.mapleader = " "
 
 local plugins = {
 	{ "navarasu/onedark.nvim" },
+	{ "rebelot/kanagawa.nvim" },
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
@@ -167,12 +168,9 @@ local plugins = {
 	{ "cappyzawa/trim.nvim" },
 	-- TODO: Switch to this auto-save plugin, when they fix the performance issues
 	-- {
-	--   "okuuva/auto-save.nvim",
-	--   cmd = "ASToggle",
-	--   event = {
-	--     "InsertLeave",
-	--     "TextChanged",
-	--   },
+	-- 	"okuuva/auto-save.nvim",
+	-- 	cmd = "ASToggle",
+	-- 	event = { "InsertLeave", "TextChanged" },
 	-- },
 	{ "Pocco81/auto-save.nvim" },
 	{
@@ -202,6 +200,15 @@ local plugins = {
 	{ "sindrets/diffview.nvim" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "sindrets/diffview.nvim" },
+	{ "max397574/better-escape.nvim" },
+	{
+		"nvimdev/lspsaga.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+	},
+	{ "nanotee/sqls.nvim" },
 }
 local opts = {}
 
