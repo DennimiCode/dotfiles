@@ -8,12 +8,14 @@ UBUNTU_VERSION="22.04"
 UBUNTU_DISTRO_NAME="ubuntu"
 NODE_MAJOR=20
 
-sudo apt update
-sudo apt full-upgrade -y
-sudo apt remove -y default-jre default-jdk transmission-gtk
-sudo apt install -y ca-certificates curl gnupg wget gpg apt-transport-https software-properties-common
-
+sudo add-apt-repository -y ppa:zhangsongcui3371/fastfetch
+sudo add-apt-repository -y ppa:nrbrtx/xorg-hotkeys
 sudo apt-add-repository non-free
+
+sudo apt update
+sudo apt dist-upgrade -y
+sudo apt autoremove --purge -y default-jre default-jdk transmission-gtk neofetch
+sudo apt install -y ca-certificates curl gnupg wget gpg apt-transport-https software-properties-common
 
 # NodeJS
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -82,8 +84,8 @@ rm ACCC4CF8.asc
 sudo apt update
 
 sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape skypeforlinux signal-desktop qbittorrent \
-  mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 \
-  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential \
+  mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 inkscape \
+  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
   libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux yaru-theme*
 
@@ -91,8 +93,12 @@ sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape skypeforlinu
 wget -qO- https://git.io/papirus-folders-install | sh
 papirus-folders -C teal --theme Papirus-Dark
 
+gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark-olive
+
 # Install zshrc config
-sudo cp -f dotfiles/.zshrc /home/$USER_NAME/
+cp -f .zshrc /home/$USER_NAME/
+
+chsh -s $(which zsh) && sudo chsh -s $(which zsh)
 
 # Download DEB apps
 wget 'https://desktop.docker.com/linux/main/amd64/docker-desktop-4.26.1-amd64.deb' -O docker-desktop.deb
@@ -106,8 +112,9 @@ wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.40.8_amd
 wget 'https://cdn.zoom.us/prod/6.0.2.4680/zoom_amd64.deb' -O zoom.deb
 wget 'https://download2.gluonhq.com/scenebuilder/21.0.0/install/linux/SceneBuilder-21.0.0.deb' -O SceneBuilder.deb
 wget 'https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community_8.0.36-1ubuntu22.04_amd64.deb' -O mysql-workbench-community.deb
+wget 'https://download.virtualbox.org/virtualbox/7.0.18/virtualbox-7.0_7.0.18-162988~Ubuntu~jammy_amd64.deb' -O virtualbox.deb
 
-# Download tar.gz apps
+# Download tar.gz
 wget 'https://download-cdn.jetbrains.com/datagrip/datagrip-2023.3.3.tar.gz' -O jetbrains-datagrip.tar.gz
 wget 'https://download-cdn.jetbrains.com/idea/ideaIU-2023.3.2.tar.gz' -O jetbrains-idea.tar.gz
 wget 'https://download-cdn.jetbrains.com/rider/JetBrains.Rider-2023.3.2.tar.gz' -O jetbrains-rider.tar.gz
@@ -116,6 +123,8 @@ wget 'https://td.telegram.org/tlinux/tsetup.4.16.8.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
 wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.0/macOS-Monterey.tar.gz' -O macOS-Monterey.tar.gz
 wget 'https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz' -O golang.tar.gz
+wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains-mono-font.zip
+wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
 
 # Install downloaded DEB apps
 sudo apt install -y ./docker-desktop.deb
@@ -129,12 +138,14 @@ sudo apt install -y ./anytype.deb
 sudo apt install -y ./zoom.deb
 sudo apt install -y ./SceneBuilder.deb
 sudo apt install -y ./mysql-workbench-community.deb
+sudo apt install -y ./virtualbox.deb
 
 # Install flatpak apps
 flatpak install -y flathub com.github.eneshecan.WhatsAppForLinux
+flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y flathub com.usebottles.bottles
 
-# Install tar.gz apps
+# Extract tar.gz
 sudo tar -vzxf jetbrains-datagrip.tar.gz -C /opt/
 sudo tar -vzxf jetbrains-idea.tar.gz -C /opt/
 sudo tar -vzxf jetbrains-rider.tar.gz -C /opt/
@@ -188,7 +199,7 @@ chmod +x /home/dennimi/.local/share/applications/Bitwarden.desktop
 chmod +x /home/dennimi/.local/share/applications/Krita.desktop
 
 # Install neovim config
-sudo mv dotfiles/nvim/ /home/$USER_NAME/.config/nvim/
+cp -r nvim /home/$USER_NAME/.config/nvim/
 
 # Use dark theme for MySQL workbench
 git clone https://github.com/mleandrojr/mysql-workbench-dark-theme.git
@@ -198,7 +209,9 @@ sudo mv mysql-workbench-dark-theme/code_editor.xml /usr/share/mysql-workbench/da
 sudo /opt/mssql/bin/mssql-conf setup
 
 # Add current user to KVM
-gpasswd -a $USER_NAME libvirt
+sudo gpasswd -a $USER_NAME libvirt
+sudo usermod -a -G vboxusers $USER_NAME
+sudo usermod -a -G libvirt $USER_NAME
 
 # Remove installed DEB package
 rm jetbrains-datagrip.tar.gz
@@ -223,6 +236,10 @@ rm discord.deb
 rm anytype.deb
 rm zoom.deb
 rm mysql-workbench-community.deb
+rm virtualbox.deb
+
+sudo apt autoremove
+sudo apt autoclean
 
 # Start installed services
 sudo systemctl start mongod
