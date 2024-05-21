@@ -1,0 +1,1 @@
+GRUB_CMDLINE_LINUX_DEFAULT="fsck.mode=skip quiet loglevel=2 splash rootfstype=ext4 libahci.ignore_sss=1 raid=noautodetect lpj=SET_YOUR_VALUE_HERE"
