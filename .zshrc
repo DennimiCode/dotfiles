@@ -39,23 +39,19 @@ zplug "MichaelAquilina/zsh-you-should-use"
 zplug check || zplug install
 zplug load
 
-alias k=kubectl
-alias ktx=kubectx
-alias disablesleep="sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target"
-alias enablesleep="sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target"
+alias nv=nvim
+alias ai="sudo apt install"
+alias au="sudo apt update"
+alias ar="sudo apt autoremove --purge"
+alias adu="sudo apt dist-upgrade"
+alias afu="sudo apt full-upgrade"
+alias fu="flatpak update"
+alias fin="flatpak install"
 alias ls="ls --color"
 alias l="lsd --date '+%d.%m.%Y %H:%M' -lah"
-alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
-alias logout="loginctl terminate-user toxblh"
-alias vnc="x0vncserver -display :0 -PasswordFile ~/.vnc/passwd"
-alias vnc-fire="fire-res && x0vncserver -display :0 -PasswordFile ~/.vnc/passwd"
-alias vnc-mac="mac-res && x0vncserver -display :0 -PasswordFile ~/.vnc/passwd"
-alias native-res="xrandr --output DP-2 --mode 3440x1440 --display :0"
-alias fire-res="xrandr --output DP-2 --mode 1280x800 --display :0"
-alias mac-res="xrandr --output DP-2 --mode 1680x1050 --display :0"
-alias dcam="sudo usbmuxd;iproxy 4747 4747 &;droidcam-cli 127.0.0.1 4747"
 
 export PATH=~/.cargo/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/toxblh/.sdkman"
