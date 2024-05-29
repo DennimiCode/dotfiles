@@ -124,18 +124,10 @@ if [ $IS_PC ] ; then
 
   sudo tar -xvf goverlay.tar.xz -C /opt/
 
-  sudo apt install -y ./portproton.deb
-  sudo apt install -y ./Minecraft.deb
-  sudo apt install -y ./libqt6pas6_6.2.8-1_amd64.deb
+  sudo apt install -y ./*.deb
 
-  rm goverlay.tar.xz
-  rm libqt6pas6_6.2.8-1_amd64.deb
-  rm portproton.deb
-  rm Minecraft.deb
-
-  sudo touch /usr/lib/systemd/system-shutdown/nvidia.shutdown
-
-  sudo chmod +x /usr/lib/systemd/system-shutdown/nvidia.shutdown
+  rm *.tar.xz
+  rm *.deb
 
   touch /home/dennimi/.local/share/applications/Goverlay.desktop
   touch /home/dennimi/.local/share/applications/BadlionClient.desktop
@@ -190,11 +182,13 @@ fi
 wget -qO- https://git.io/papirus-folders-install | sh
 papirus-folders -C green --theme Papirus-Dark
 
+# Fix gnome apps theme
 gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark-olive
 
 # Install zshrc config
 cp -f .zshrc /home/$USER_NAME/
 
+# Make ZSH as default shell
 chsh -s $(which zsh) && sudo chsh -s $(which zsh)
 
 # Download DEB apps
@@ -226,20 +220,7 @@ wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
 
 # Install downloaded DEB apps
-sudo apt install -y ./docker-desktop.deb
-sudo apt install -y ./jdk-21.deb
-sudo apt install -y ./dbvis.deb
-sudo apt install -y ./mongodb-compass.deb
-sudo apt install -y ./onlyoffice.deb
-sudo apt install -y ./LocalSend.deb
-sudo apt install -y ./discord.deb
-sudo apt install -y ./anytype.deb
-sudo apt install -y ./zoom.deb
-sudo apt install -y ./SceneBuilder.deb
-sudo apt install -y ./mysql-workbench-community.deb
-sudo apt install -y ./virtualbox.deb
-sudo apt install -y ./dbeaver.deb
-sudo apt install -y ./gcm.deb
+sudo apt install -y ./*.deb
 
 # Install flatpak apps
 flatpak install -y flathub com.github.eneshecan.WhatsAppForLinux
@@ -318,37 +299,16 @@ gpg --gen-key
 pass init Denis
 git-credential-manager configure
 
-# Add current user to KVM
+# Add current user to KVM & VirtualBox groups
 sudo gpasswd -a $USER_NAME libvirt
 sudo usermod -a -G vboxusers $USER_NAME
 sudo usermod -a -G libvirt $USER_NAME
 
-# Remove installed DEB package
-rm jetbrains-datagrip.tar.gz
-rm jetbrains-idea.tar.gz
-rm jetbrains-rider.tar.gz
-rm telegram.tar.xz
-rm postman.tar.gz
-rm eclipse.tar.gz
-rm macOS-Monterey.tar.gz
-rm golang.tar.gz
-
+# Remove downloaded packages, archives & directories
+rm *.deb
+rm *.tar.gz
+rm *.tar.xz
 rm -rf mysql-workbench-dark-theme/
-
-rm docker-desktop.deb
-rm jdk-21.deb
-rm dbvis.deb
-rm SceneBuilder.deb
-rm mongodb-compass.deb
-rm onlyoffice.deb
-rm LocalSend.deb
-rm discord.deb
-rm anytype.deb
-rm zoom.deb
-rm mysql-workbench-community.deb
-rm virtualbox.deb
-rm dbeaver.deb
-rm gcm.deb
 
 sudo apt autoremove
 sudo apt autoclean
