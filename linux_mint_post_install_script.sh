@@ -126,9 +126,6 @@ if [ $IS_PC ] ; then
 
   sudo apt install -y ./*.deb
 
-  rm *.tar.xz
-  rm *.deb
-
   touch /home/dennimi/.local/share/applications/Goverlay.desktop
   touch /home/dennimi/.local/share/applications/BadlionClient.desktop
   touch /home/dennimi/.local/share/applications/LunarClient.desktop
@@ -214,7 +211,7 @@ wget 'https://download-cdn.jetbrains.com/rider/JetBrains.Rider-2023.3.2.tar.gz' 
 wget 'https://eclipse.mirror.garr.it/oomph/epp/2023-12/R/eclipse-inst-jre-linux64.tar.gz' -O eclipse.tar.gz
 wget 'https://td.telegram.org/tlinux/tsetup.4.16.8.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
-wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.0/macOS-Monterey.tar.gz' -O macOS-Monterey.tar.gz
+wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.1/macOS.tar.xz' -O macOS.tar.xz
 wget 'https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz' -O golang.tar.gz
 wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains-mono-font.zip
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
@@ -234,7 +231,7 @@ sudo tar -vzxf jetbrains-idea.tar.gz -C /opt/
 sudo tar -vzxf jetbrains-rider.tar.gz -C /opt/
 sudo tar -vxf telegram.tar.xz -C /opt/
 sudo tar -vzxf postman.tar.gz -C /opt/
-sudo tar -vzxf macOS-Monterey.tar.gz -C /usr/share/icons/
+sudo tar -vxf macOS.tar.xz -C /usr/share/icons/
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -vxzf golang.tar.gz
 tar -vzxf eclipse.tar.gz
