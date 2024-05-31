@@ -1,0 +1,2 @@
+BF1 - DXVK_ENABLE_NVAPI=1 PROTON_ENABLE_NVAPI=1 PROTON_HIDE_NVIDIA_GPU=0 DXVK_ASYNC=1 HOST_LC_ALL=ru_RU.UTF-8 ENABLE_VKBASALT=1 LD_PRELOAD=$LD_PRELOAD:/usr/lib/x86_64-linux-gnu/libgamemodeauto.so.0 MANGOHUD=1 %command%
+CS2 - HOST_LC_ALL=ru_RU.UTF-8 ENABLE_VKBASALT=1 LD_PRELOAD=$LD_PRELOAD:/usr/lib/x86_64-linux-gnu/libgamemodeauto.so.0 mangohud %command% -sdlaudiodriver pulseaudio -fullscreen -vulkan
