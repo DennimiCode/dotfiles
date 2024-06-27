@@ -207,6 +207,8 @@ require("lazy").setup({
   { "mg979/vim-visual-multi" },
   -- Autotag - use treesitter to autoclose and autorename html tag.
   { "windwp/nvim-ts-autotag" },
+  -- This tiny plugin adds vscode-like pictograms to neovim built-in lsp.
+  {"onsails/lspkind.nvim"},
   -- Colorscheme that will be used when installing plugins.
   install = { colorscheme = { "onedark" } },
   -- Automatically check for plugin updates

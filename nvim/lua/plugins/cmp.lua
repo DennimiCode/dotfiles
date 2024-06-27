@@ -1,5 +1,5 @@
 local cmp = require("cmp")
-
+local lspkind = require("lspkind")
 -- Load VS Code-like snippets from Friendly Snippets
 require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -12,6 +12,14 @@ cmp.setup({
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
+  },
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = "symbol",
+      maxwidth = 50,
+      ellipsis_char = "...",
+      show_labelDetails = true,
+    }),
   },
   mapping = cmp.mapping.preset.insert({
     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
