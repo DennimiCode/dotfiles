@@ -39,7 +39,14 @@ zplug "MichaelAquilina/zsh-you-should-use"
 zplug check || zplug install
 zplug load
 
+alias g=git
+alias gpl="git pull"
+alias gst="git status"
+alias gcl="git clone"
+alias ga="git add"
 alias nv=nvim
+alias vi=nvim
+alias vim=nvim
 alias ai="sudo apt install"
 alias au="sudo apt update"
 alias ar="sudo apt autoremove --purge"
@@ -49,9 +56,14 @@ alias fu="flatpak update"
 alias fin="flatpak install"
 alias ls="ls --color"
 alias l="lsd --date '+%d.%m.%Y %H:%M' -lah"
+alias tmux='tmux -2'
 
 export PATH=~/.cargo/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
+export PATH="$PATH:/opt/nvim-linux64/bin"
+export EDITOR="/opt/nvim-linux64/bin/nvim"
+export VISUAL="/opt/nvim-linux64/bin/nvim"
+export SUDO_EDITOR="/opt/nvim-linux64/bin/nvim"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/toxblh/.sdkman"
