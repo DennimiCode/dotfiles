@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Change it to your user name
 USER_NAME="dennimi"
 IS_PC=false
@@ -102,7 +101,23 @@ sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape skypeforlinu
   mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 inkscape \
   gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
   libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager nemo-preview \
-  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium yaru-theme*
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium
+
+# Install theme & icons
+git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git --depth=1
+./WhiteSur-gtk-theme/install.sh
+git clone https://github.com/vinceliuice/WhiteSur-icon-theme
+./WhiteSur-icon-theme/install.sh
+sudo mkdir /root/.themes
+sudo cp -r ~/.themes/WhiteSur-Dark-solid /root/.themes
+sudo cp -r ~/.local/share/icons/WhiteSur-dark /root/.local/share/icons
+rm -r WhiteSur-gtk-theme
+rm -r WhiteSur-icon-theme
+
+# Install Colibre Dark LibreOffice icon theme
+git clone https://github.com/rizmut/libreoffice-style-colibre.git
+./libreoffice-style-colibre/install-colibre-local.sh
+rm -r libreoffice-style-colibre
 
 if [ $IS_PC ] ; then
   sudo chmod u+x /usr/share/screen-resolution-extra/nvidia-polkit
@@ -126,9 +141,9 @@ if [ $IS_PC ] ; then
 
   sudo apt install -y ./*.deb
 
-  touch /home/dennimi/.local/share/applications/Goverlay.desktop
-  touch /home/dennimi/.local/share/applications/BadlionClient.desktop
-  touch /home/dennimi/.local/share/applications/LunarClient.desktop
+  touch /home/$USER_NAME/.local/share/applications/Goverlay.desktop
+  touch /home/$USER_NAME/.local/share/applications/BadlionClient.desktop
+  touch /home/$USER_NAME/.local/share/applications/LunarClient.desktop
 
   echo \
   '
@@ -178,9 +193,6 @@ fi
 # Install & upply papirus folders
 wget -qO- https://git.io/papirus-folders-install | sh
 papirus-folders -C green --theme Papirus-Dark
-
-# Fix gnome apps theme
-gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark-olive
 
 # Install zshrc config
 cp -f .zshrc /home/$USER_NAME/
@@ -235,6 +247,22 @@ sudo tar -vxf macOS.tar.xz -C /usr/share/icons/
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -vxzf golang.tar.gz
 tar -vzxf eclipse.tar.gz
+
+# Create dekstop file for postman
+touch /home/$USER_NAME/.local/share/applications/postman.desktop
+echo \
+'
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Name=Postman
+Comment=Supercharge your API workflow
+Icon=postman
+Exec="/opt/Postman/Postman"
+Categories=Development;
+' > /home/dennimi/.local/share/applications/Goverlay.desktop
 
 # Download & install AppImages
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
