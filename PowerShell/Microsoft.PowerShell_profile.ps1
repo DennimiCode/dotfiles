@@ -53,3 +53,7 @@ function ga([string]$file)
 {
   git add $file
 }
+function gpl
+{
+  git pull
+}
