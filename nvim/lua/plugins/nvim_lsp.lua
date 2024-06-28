@@ -19,3 +19,8 @@ lspconfig.yamlls.setup({ capabilities = capabilities })                 -- YAML
 lspconfig.taplo.setup({ capabilities = capabilities })                  -- TOML
 lspconfig.lemminx.setup({ capabilities = capabilities })                -- XML
 lspconfig.marksman.setup({ capabilities = capabilities })               -- Markdown
+lspconfig.sqls.setup({
+  on_attach = function(client, bufnr)
+    require("sqls").on_attach(client, bufnr)
+  end,
+})

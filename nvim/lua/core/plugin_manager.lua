@@ -209,6 +209,8 @@ require("lazy").setup({
   { "windwp/nvim-ts-autotag" },
   -- This tiny plugin adds vscode-like pictograms to neovim built-in lsp.
   {"onsails/lspkind.nvim"},
+  -- Sqls - Neovim plugin for sqls that leverages the built-in LSP client. Loosely based on the code from sqls.vim.
+  {"nanotee/sqls.nvim"},
   -- Colorscheme that will be used when installing plugins.
   install = { colorscheme = { "onedark" } },
   -- Automatically check for plugin updates
