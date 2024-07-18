@@ -97,10 +97,10 @@ rm mysql-apt-config.deb
 
 sudo apt update
 
-sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape skypeforlinux signal-desktop qbittorrent \
+sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape signal-desktop qbittorrent nemo-preview \
   mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 inkscape \
   gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
-  libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager nemo-preview \
+  libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium
 
 # Install theme & icons
@@ -235,6 +235,7 @@ sudo apt install -y ./*.deb
 flatpak install -y flathub com.github.eneshecan.WhatsAppForLinux
 flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y flathub com.usebottles.bottles
+flatpak install -y flathub com.skype.Client
 flatpak update -y
 
 # Extract tar.gz
