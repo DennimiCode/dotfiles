@@ -66,12 +66,6 @@ echo "deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/signal-desktop-keyring.gp
   sudo tee /etc/apt/sources.list.d/signal-xenial.list
 rm signal-desktop-keyring.gpg
 
-# Skype for linux
-curl -fsSL https://repo.skype.com/data/SKYPE-GPG-KEY | sudo gpg --dearmor | \
-  sudo tee /usr/share/keyrings/skype.gpg > /dev/null
-echo deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/skype.gpg] https://repo.skype.com/deb stable main | \
-  sudo tee /etc/apt/sources.list.d/skype.list
-
 # Teams for linux
 sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
 echo "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/teams-for-linux.asc] https://repo.teamsforlinux.de/debian/ stable main" | \
@@ -100,8 +94,8 @@ sudo apt update
 sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape signal-desktop qbittorrent nemo-preview \
   mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 inkscape \
   gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
-  libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager \
-  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium
+  libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager evolution-ews \
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium evolution
 
 # Install theme & icons
 git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git --depth=1
@@ -192,7 +186,6 @@ fi
 
 # Install & upply papirus folders
 wget -qO- https://git.io/papirus-folders-install | sh
-papirus-folders -C green --theme Papirus-Dark
 
 # Install zshrc config
 cp -f .zshrc /home/$USER_NAME/
@@ -224,9 +217,10 @@ wget 'https://eclipse.mirror.garr.it/oomph/epp/2023-12/R/eclipse-inst-jre-linux6
 wget 'https://td.telegram.org/tlinux/tsetup.4.16.8.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
 wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.1/macOS.tar.xz' -O macOS.tar.xz
-wget 'https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz' -O golang.tar.gz
+wget 'https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz' -O golang.tar.gz
 wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains-mono-font.zip
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 
 # Install downloaded DEB apps
 sudo apt install -y ./*.deb
@@ -248,6 +242,8 @@ sudo tar -vxf macOS.tar.xz -C /usr/share/icons/
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -vxzf golang.tar.gz
 tar -vzxf eclipse.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux64.tar.gz
 
 # Create dekstop file for postman
 touch /home/$USER_NAME/.local/share/applications/postman.desktop
@@ -266,15 +262,12 @@ Categories=Development;
 ' > /home/dennimi/.local/share/applications/Goverlay.desktop
 
 # Download & install AppImages
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 wget 'https://download.kde.org/stable/krita/5.2.2/krita-5.2.2-x86_64.appimage' -O krita.appimage
 wget 'https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage'
 mv 'index.html?app=desktop&platform=linux&variant=appimage' bitwarden.appimage
 rm 'index.html?app=desktop&platform=linux&variant=appimage'
-chmod u+x nvim.appimage
 chmod u+x krita.appimage
 chmod u+x bitwarden.appimage
-sudo mv nvim.appimage /usr/local/bin/nvim
 sudo mv krita.appimage /opt/
 sudo mv bitwarden.appimage /opt/
 

@@ -61,6 +61,7 @@ alias tmux='tmux -2'
 export PATH=~/.cargo/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export PATH="$PATH:/opt/nvim-linux64/bin"
+
 export EDITOR="/opt/nvim-linux64/bin/nvim"
 export VISUAL="/opt/nvim-linux64/bin/nvim"
 export SUDO_EDITOR="/opt/nvim-linux64/bin/nvim"
