@@ -1,10 +1,10 @@
 #!/bin/bash
-# Change it to your user name
-USER_NAME="dennimi"
+
+USER_NAME=$(whoami)
 IS_PC=false
 PC_ARCH=$(dpkg --print-architecture)
 UBUNTU_CODENAME=$(source /etc/os-release && echo $UBUNTU_CODENAME)
-UBUNTU_VERSION="22.04"
+UBUNTU_VERSION="24.04"
 UBUNTU_DISTRO_NAME="ubuntu"
 NODE_MAJOR=20
 
@@ -16,9 +16,12 @@ else
   IS_PC=false
 fi
 
+sudo add-apt-repository -y universe
+sudo apt-add-repository -y non-free
+
+sudo add-apt-repository -y ppa:agornostal/ulauncher
 sudo add-apt-repository -y ppa:zhangsongcui3371/fastfetch
 sudo add-apt-repository -y ppa:nrbrtx/xorg-hotkeys
-sudo apt-add-repository non-free
 
 sudo apt update
 sudo apt dist-upgrade -y
@@ -93,20 +96,23 @@ sudo apt update
 
 sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape signal-desktop qbittorrent nemo-preview \
   mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 inkscape \
-  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
+  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla ulauncher \
   libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager evolution-ews \
-  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium evolution
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium evolution yaru-*
 
-# Install theme & icons
-git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git --depth=1
-./WhiteSur-gtk-theme/install.sh
-git clone https://github.com/vinceliuice/WhiteSur-icon-theme
-./WhiteSur-icon-theme/install.sh
-sudo mkdir /root/.themes
-sudo cp -r ~/.themes/WhiteSur-Dark-solid /root/.themes
-sudo cp -r ~/.local/share/icons/WhiteSur-dark /root/.local/share/icons
-rm -r WhiteSur-gtk-theme
-rm -r WhiteSur-icon-theme
+# Install theme, icons & cursors
+wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.1/macOS.tar.xz' -O macOS.tar.xz
+sudo tar -vxf macOS.tar.xz -C /usr/share/icons/
+# Install & upply papirus folders
+wget -qO- https://git.io/papirus-folders-install | sh
+papirus-folders -C green --theme Papirus-Dark
+
+# 'Install' wallpapers
+wget 'https://512pixels.net/downloads/macos-wallpapers-6k/10-13-6k.jpg' -O macos-high-sierra.jpg
+wget 'https://512pixels.net/downloads/macos-wallpapers-6k/10-11-6k.jpg' -O macos-el-capitan.jpg
+sudo mkdir -p /usr/share/backgrounds/user
+sudo mv macos-high-sierra.jpg /usr/share/backgrounds/user/macos-high-sierra.jpg
+sudo mv macos-el-capitan.jpg /usr/share/backgrounds/user/macos-el-capitan.jpg
 
 # Install Colibre Dark LibreOffice icon theme
 git clone https://github.com/rizmut/libreoffice-style-colibre.git
@@ -184,30 +190,30 @@ if [ $IS_PC ] ; then
   flatpak update -y
 fi
 
-# Install & upply papirus folders
-wget -qO- https://git.io/papirus-folders-install | sh
-
 # Install zshrc config
 cp -f .zshrc /home/$USER_NAME/
 
 # Make ZSH as default shell
 chsh -s $(which zsh) && sudo chsh -s $(which zsh)
 
+#Install ZED text editor
+curl -f https://zed.dev/install.sh | sh
+
 # Download DEB apps
-wget 'https://desktop.docker.com/linux/main/amd64/docker-desktop-4.26.1-amd64.deb' -O docker-desktop.deb
+wget 'https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb' -O docker-desktop.deb
 wget 'https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb' -O jdk-21.deb
-wget 'https://www.dbvis.com/product_download/dbvis-24.1.4/media/dbvis_linux_24_1_4.deb' -O dbvis.deb
 wget 'https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb' -O dbeaver.deb
-wget 'https://downloads.mongodb.com/compass/mongodb-compass_1.43.0_amd64.deb' -O mongodb-compass.deb
+wget 'https://downloads.mongodb.com/compass/mongodb-compass_1.43.4_amd64.deb' -O mongodb-compass.deb
+wget 'https://downloads.mongodb.com/compass/mongodb-mongosh_2.2.12_amd64.deb' -O mongoh.deb
 wget 'https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb' -O onlyoffice.deb
-wget 'https://github.com/localsend/localsend/releases/download/v1.14.0/LocalSend-1.14.0-linux-x86-64.deb' -O LocalSend.deb
-wget 'https://dl.discordapp.net/apps/linux/0.0.54/discord-0.0.54.deb' -O discord.deb
-wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.40.8_amd64.deb' -O anytype.deb
-wget 'https://cdn.zoom.us/prod/6.0.2.4680/zoom_amd64.deb' -O zoom.deb
-wget 'https://download2.gluonhq.com/scenebuilder/21.0.0/install/linux/SceneBuilder-21.0.0.deb' -O SceneBuilder.deb
-wget 'https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community_8.0.36-1ubuntu22.04_amd64.deb' -O mysql-workbench-community.deb
-wget 'https://download.virtualbox.org/virtualbox/7.0.18/virtualbox-7.0_7.0.18-162988~Ubuntu~jammy_amd64.deb' -O virtualbox.deb
-wget 'https://github.com/git-ecosystem/git-credential-manager/releases/download/v2.5.0/gcm-linux_amd64.2.5.0.deb' -O gcm.deb
+wget 'https://github.com/localsend/localsend/releases/download/v1.15.1/LocalSend-1.15.1-linux-x86-64.deb' -O LocalSend.deb
+wget 'https://discord.com/api/download?platform=linux&format=deb' -O discord.deb
+wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.41.1_amd64.deb' -O anytype.deb
+wget 'https://cdn.zoom.us/prod/6.1.5.871/zoom_amd64.deb' -O zoom.deb
+wget 'https://download2.gluonhq.com/scenebuilder/22.0.0/install/linux/SceneBuilder-22.0.0.deb' -O SceneBuilder.deb
+wget 'https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community_8.0.38-1ubuntu24.04_amd64.deb' -O mysql-workbench-community.deb
+wget 'https://download.virtualbox.org/virtualbox/7.0.20/virtualbox-7.0_7.0.20-163906~Ubuntu~noble_amd64.deb' -O virtualbox.deb
+wget 'https://github.com/git-ecosystem/git-credential-manager/releases/download/v2.5.1/gcm-linux_amd64.2.5.1.deb' -O gcm.deb
 
 # Download tar.gz
 wget 'https://download-cdn.jetbrains.com/datagrip/datagrip-2023.3.3.tar.gz' -O jetbrains-datagrip.tar.gz
@@ -216,7 +222,6 @@ wget 'https://download-cdn.jetbrains.com/rider/JetBrains.Rider-2023.3.2.tar.gz' 
 wget 'https://eclipse.mirror.garr.it/oomph/epp/2023-12/R/eclipse-inst-jre-linux64.tar.gz' -O eclipse.tar.gz
 wget 'https://td.telegram.org/tlinux/tsetup.4.16.8.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
-wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.1/macOS.tar.xz' -O macOS.tar.xz
 wget 'https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz' -O golang.tar.gz
 wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains-mono-font.zip
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
@@ -238,7 +243,6 @@ sudo tar -vzxf jetbrains-idea.tar.gz -C /opt/
 sudo tar -vzxf jetbrains-rider.tar.gz -C /opt/
 sudo tar -vxf telegram.tar.xz -C /opt/
 sudo tar -vzxf postman.tar.gz -C /opt/
-sudo tar -vxf macOS.tar.xz -C /usr/share/icons/
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -vxzf golang.tar.gz
 tar -vzxf eclipse.tar.gz
@@ -303,7 +307,7 @@ chmod +x /home/dennimi/.local/share/applications/Bitwarden.desktop
 chmod +x /home/dennimi/.local/share/applications/Krita.desktop
 
 # Install neovim config
-cp -r nvim /home/$USER_NAME/.config/nvim/
+git clone git@github.com:DennimiCode/NdVim.git /home/$USER_NAME/.config/nvim
 
 # Use dark theme for MySQL workbench
 git clone https://github.com/mleandrojr/mysql-workbench-dark-theme.git
@@ -338,6 +342,8 @@ sudo systemctl enable mongod
 sudo systemctl status mongod
 
 sudo ufw allow 53317
+
+sudo dpkg-divert --package im-config --rename /usr/bin/ibus-daemon
 
 # Extend swap file
 sudo swapoff -a
