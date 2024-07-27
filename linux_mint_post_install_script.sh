@@ -35,16 +35,15 @@ if [ $IS_PC ]; then
 fi
 
 # NodeJS
-curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-echo "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | \
-  sudo tee /etc/apt/sources.list.d/nodesource.list
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
 
 # Docker
+sudo apt-get install ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/$UBUNTU_DISTRO_NAME/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
+sudo curl -fsSL https://download.docker.com/linux/$UBUNTU_DISTRO_NAME/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 echo \
-  "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/$UBUNTU_DISTRO_NAME \
+  "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$UBUNTU_DISTRO_NAME \
   $UBUNTU_CODENAME stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
@@ -59,7 +58,7 @@ rm -f packages.microsoft.gpg
 curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
   sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
   --dearmor
-echo "deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg] https://repo.mongodb.org/apt/$UBUNTU_DISTRO_NAME $UBUNTU_CODENAME/mongodb-org/7.0 multiverse" | \
+echo "deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg] https://repo.mongodb.org/apt/$UBUNTU_DISTRO_NAME jammy/mongodb-org/7.0 multiverse" | \
   sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
 # Signal desktop
@@ -88,17 +87,17 @@ echo deb [arch=$PC_ARCH signed-by=/usr/share/postgresql-common/pgdg/apt.postgres
 rm ACCC4CF8.asc
 
 # MySQL server
-wget 'https://repo.mysql.com//mysql-apt-config_0.8.30-1_all.deb' -O mysql-apt-config.deb
+wget 'https://repo.mysql.com//mysql-apt-config_0.8.32-1_all.deb' -O mysql-apt-config.deb
 sudo dpkg -i ./mysql-apt-config.deb
 rm mysql-apt-config.deb
 
 sudo apt update
 
 sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape signal-desktop qbittorrent nemo-preview \
-  mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 dotnet6 inkscape \
+  mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 inkscape \
   gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla ulauncher \
-  libssl-dev libffi-dev python3-dev qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager evolution-ews \
-  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium evolution yaru-*
+  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution evolution-ews \
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium yaru-*
 
 # Install theme, icons & cursors
 wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.1/macOS.tar.xz' -O macOS.tar.xz
