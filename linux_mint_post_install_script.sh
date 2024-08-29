@@ -6,10 +6,10 @@ PC_ARCH=$(dpkg --print-architecture)
 UBUNTU_CODENAME=$(source /etc/os-release && echo $UBUNTU_CODENAME)
 UBUNTU_VERSION="24.04"
 UBUNTU_DISTRO_NAME="ubuntu"
-NODE_MAJOR=20
+NODEJS_VERSION=20
 
 # Setup this PC as gaming or not
-read -p "Is it PC (PC/Laptop for games)? (Y/N): " PC_CONFIRM
+read -p "Is it PC (PC/Laptop for games)? (y/N): " PC_CONFIRM
 if [[ $PC_CONFIRM == [yY] || $PC_CONFIRM == [yY][eE][sS] ]]; then
   IS_PC=true
 else
@@ -28,14 +28,14 @@ sudo apt dist-upgrade -y
 sudo apt autoremove --purge -y default-jre default-jdk transmission-gtk neofetch
 sudo apt install -y ca-certificates curl gnupg wget gpg apt-transport-https software-properties-common
 
-if [ $IS_PC ]; then
+if [ $IS_PC == true ]; then
   wget -qO - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/google-chrome.gpg
   echo "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | \
     sudo tee /etc/apt/sources.list.d/google-chrome.list
 fi
 
 # NodeJS
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+curl -fsSL https://deb.nodesource.com/setup_$NODEJS_VERSION.x | sudo bash -
 
 # Docker
 sudo apt-get install ca-certificates curl
@@ -61,23 +61,17 @@ curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
 echo "deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg] https://repo.mongodb.org/apt/$UBUNTU_DISTRO_NAME jammy/mongodb-org/7.0 multiverse" | \
   sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
-# Signal desktop
-wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
-cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-echo "deb [arch=$PC_ARCH signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main" | \
-  sudo tee /etc/apt/sources.list.d/signal-xenial.list
-rm signal-desktop-keyring.gpg
-
 # Teams for linux
 sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
 echo "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/teams-for-linux.asc] https://repo.teamsforlinux.de/debian/ stable main" | \
   sudo tee /etc/apt/sources.list.d/teams-for-linux-packages.list
 
 # Microsoft SQL Server
-curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg
-curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
-curl -fsSL https://packages.microsoft.com/config/$UBUNTU_DISTRO_NAME/$UBUNTU_VERSION/mssql-server-2022.list | \
-  sudo tee /etc/apt/sources.list.d/mssql-server-2022.list
+# Disabled until MS SQL Server is upgraded to Ubuntu 24.04
+# curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg
+# curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+# curl -fsSL https://packages.microsoft.com/config/$UBUNTU_DISTRO_NAME/$UBUNTU_VERSION/mssql-server-2022.list | \
+#   sudo tee /etc/apt/sources.list.d/mssql-server-2022.list
 
 # PostgreSQL server
 sudo install -d /usr/share/postgresql-common/pgdg
@@ -93,10 +87,10 @@ rm mysql-apt-config.deb
 
 sudo apt update
 
-sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape signal-desktop qbittorrent nemo-preview \
-  mssql-server mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 inkscape \
-  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla ulauncher \
-  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution evolution-ews \
+sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape qbittorrent nemo-preview ulauncher remmina \
+  mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 inkscape tmux alacritty evolution-ews \
+  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
+  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium yaru-*
 
 # Install theme, icons & cursors
@@ -106,6 +100,12 @@ sudo tar -vxf macOS.tar.xz -C /usr/share/icons/
 wget -qO- https://git.io/papirus-folders-install | sh
 papirus-folders -C green --theme Papirus-Dark
 
+# Install Ulauncher theme
+git clone https://github.com/lighttigerXIV/ulauncher-adwaita-gtk4/
+cd ulauncher-adwaita-gtk4
+mkdir -p ~/.config/ulauncher/user-themes/
+cp -r src/* ~/.config/ulauncher/user-themes/
+
 # 'Install' wallpapers
 wget 'https://512pixels.net/downloads/macos-wallpapers-6k/10-13-6k.jpg' -O macos-high-sierra.jpg
 wget 'https://512pixels.net/downloads/macos-wallpapers-6k/10-11-6k.jpg' -O macos-el-capitan.jpg
@@ -113,12 +113,7 @@ sudo mkdir -p /usr/share/backgrounds/user
 sudo mv macos-high-sierra.jpg /usr/share/backgrounds/user/macos-high-sierra.jpg
 sudo mv macos-el-capitan.jpg /usr/share/backgrounds/user/macos-el-capitan.jpg
 
-# Install Colibre Dark LibreOffice icon theme
-git clone https://github.com/rizmut/libreoffice-style-colibre.git
-./libreoffice-style-colibre/install-colibre-local.sh
-rm -r libreoffice-style-colibre
-
-if [ $IS_PC ] ; then
+if [ $IS_PC == true ] ; then
   sudo chmod u+x /usr/share/screen-resolution-extra/nvidia-polkit
   systemctl --user enable gamemoded && systemctl --user start gamemoded
 
@@ -206,22 +201,16 @@ wget 'https://downloads.mongodb.com/compass/mongodb-compass_1.43.4_amd64.deb' -O
 wget 'https://downloads.mongodb.com/compass/mongodb-mongosh_2.2.12_amd64.deb' -O mongoh.deb
 wget 'https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb' -O onlyoffice.deb
 wget 'https://github.com/localsend/localsend/releases/download/v1.15.1/LocalSend-1.15.1-linux-x86-64.deb' -O LocalSend.deb
-wget 'https://discord.com/api/download?platform=linux&format=deb' -O discord.deb
 wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.41.1_amd64.deb' -O anytype.deb
 wget 'https://cdn.zoom.us/prod/6.1.5.871/zoom_amd64.deb' -O zoom.deb
 wget 'https://download2.gluonhq.com/scenebuilder/22.0.0/install/linux/SceneBuilder-22.0.0.deb' -O SceneBuilder.deb
 wget 'https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community_8.0.38-1ubuntu24.04_amd64.deb' -O mysql-workbench-community.deb
 wget 'https://download.virtualbox.org/virtualbox/7.0.20/virtualbox-7.0_7.0.20-163906~Ubuntu~noble_amd64.deb' -O virtualbox.deb
-wget 'https://github.com/git-ecosystem/git-credential-manager/releases/download/v2.5.1/gcm-linux_amd64.2.5.1.deb' -O gcm.deb
 
 # Download tar.gz
-wget 'https://download-cdn.jetbrains.com/datagrip/datagrip-2023.3.3.tar.gz' -O jetbrains-datagrip.tar.gz
-wget 'https://download-cdn.jetbrains.com/idea/ideaIU-2023.3.2.tar.gz' -O jetbrains-idea.tar.gz
-wget 'https://download-cdn.jetbrains.com/rider/JetBrains.Rider-2023.3.2.tar.gz' -O jetbrains-rider.tar.gz
-wget 'https://eclipse.mirror.garr.it/oomph/epp/2023-12/R/eclipse-inst-jre-linux64.tar.gz' -O eclipse.tar.gz
 wget 'https://td.telegram.org/tlinux/tsetup.4.16.8.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
-wget 'https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz' -O golang.tar.gz
+wget 'https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz' -O go.linux-amd64.tar.gz
 wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains-mono-font.zip
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
@@ -234,16 +223,13 @@ flatpak install -y flathub com.github.eneshecan.WhatsAppForLinux
 flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y flathub com.usebottles.bottles
 flatpak install -y flathub com.skype.Client
+flatpak install -y flathub com.discordapp.Discord
 flatpak update -y
 
 # Extract tar.gz
-sudo tar -vzxf jetbrains-datagrip.tar.gz -C /opt/
-sudo tar -vzxf jetbrains-idea.tar.gz -C /opt/
-sudo tar -vzxf jetbrains-rider.tar.gz -C /opt/
 sudo tar -vxf telegram.tar.xz -C /opt/
 sudo tar -vzxf postman.tar.gz -C /opt/
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -vxzf golang.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.linux-amd64.tar.gz
 tar -vzxf eclipse.tar.gz
 sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux64.tar.gz
@@ -306,6 +292,7 @@ chmod +x /home/dennimi/.local/share/applications/Bitwarden.desktop
 chmod +x /home/dennimi/.local/share/applications/Krita.desktop
 
 # Install neovim config
+mkdir /home/$USER_NAME/.config/nvim
 git clone git@github.com:DennimiCode/NdVim.git /home/$USER_NAME/.config/nvim
 
 # Use dark theme for MySQL workbench
@@ -314,12 +301,6 @@ sudo mv mysql-workbench-dark-theme/code_editor.xml /usr/share/mysql-workbench/da
 
 # Configure mssql server
 sudo /opt/mssql/bin/mssql-conf setup
-
-# Configure git credential manager
-git config --global credential.credentialStore gpg
-gpg --gen-key
-pass init Denis
-git-credential-manager configure
 
 # Add current user to KVM & VirtualBox groups
 sudo gpasswd -a $USER_NAME libvirt
@@ -351,7 +332,3 @@ sudo fallocate -l 4G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
-
-chmod u+x eclipse-installer/eclipse-inst
-eclipse-installer/eclipse-inst
-sudo rm -rf eclipse-installer
