@@ -90,7 +90,7 @@ sudo apt update
 sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape qbittorrent nemo-preview ulauncher remmina \
   mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 inkscape tmux alacritty evolution-ews \
   gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
-  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution \
+  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution xclip \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium yaru-*
 
 # Install theme, icons & cursors
@@ -200,17 +200,17 @@ wget 'https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb' -O dbeaver.deb
 wget 'https://downloads.mongodb.com/compass/mongodb-compass_1.43.4_amd64.deb' -O mongodb-compass.deb
 wget 'https://downloads.mongodb.com/compass/mongodb-mongosh_2.2.12_amd64.deb' -O mongoh.deb
 wget 'https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb' -O onlyoffice.deb
-wget 'https://github.com/localsend/localsend/releases/download/v1.15.1/LocalSend-1.15.1-linux-x86-64.deb' -O LocalSend.deb
-wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.41.1_amd64.deb' -O anytype.deb
-wget 'https://cdn.zoom.us/prod/6.1.5.871/zoom_amd64.deb' -O zoom.deb
+wget 'https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-x86-64.deb' -O LocalSend.deb
+wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.42.5_amd64.deb' -O anytype.deb
+wget 'https://cdn.zoom.us/prod/6.1.11.1545/zoom_amd64.deb' -O zoom.deb
 wget 'https://download2.gluonhq.com/scenebuilder/22.0.0/install/linux/SceneBuilder-22.0.0.deb' -O SceneBuilder.deb
 wget 'https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community_8.0.38-1ubuntu24.04_amd64.deb' -O mysql-workbench-community.deb
 wget 'https://download.virtualbox.org/virtualbox/7.0.20/virtualbox-7.0_7.0.20-163906~Ubuntu~noble_amd64.deb' -O virtualbox.deb
 
 # Download tar.gz
-wget 'https://td.telegram.org/tlinux/tsetup.4.16.8.tar.xz' -O telegram.tar.xz
+wget 'https://td.telegram.org/tlinux/tsetup.5.4.0.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
-wget 'https://dl.google.com/go/go1.22.5.linux-amd64.tar.gz' -O go.linux-amd64.tar.gz
+wget 'https://dl.google.com/go/go1.23.0.linux-amd64.tar.gz' -O go.linux-amd64.tar.gz
 wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains-mono-font.zip
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
@@ -252,9 +252,7 @@ Categories=Development;
 
 # Download & install AppImages
 wget 'https://download.kde.org/stable/krita/5.2.2/krita-5.2.2-x86_64.appimage' -O krita.appimage
-wget 'https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage'
-mv 'index.html?app=desktop&platform=linux&variant=appimage' bitwarden.appimage
-rm 'index.html?app=desktop&platform=linux&variant=appimage'
+wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux" -O bitwarden.appimage
 chmod u+x krita.appimage
 chmod u+x bitwarden.appimage
 sudo mv krita.appimage /opt/
