@@ -1,9 +1,3 @@
-working_directory = "C:\\Users\\denni\\Desktop"
-
-[shell]
-program = "pwsh"
-args = ["-nologo"]
-
 [window]
 blur = true
 dynamic_title = true
