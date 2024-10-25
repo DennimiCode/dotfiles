@@ -87,10 +87,10 @@ rm mysql-apt-config.deb
 
 sudo apt update
 
-sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape qbittorrent nemo-preview ulauncher remmina \
+sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape qbittorrent nemo-preview ulauncher remmina flameshot \
   mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 inkscape tmux alacritty evolution-ews \
-  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla \
-  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution xclip \
+  gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla redshift \
+  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution xclip tlp \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium yaru-*
 
 # Install theme, icons & cursors
@@ -102,9 +102,9 @@ papirus-folders -C green --theme Papirus-Dark
 
 # Install Ulauncher theme
 git clone https://github.com/lighttigerXIV/ulauncher-adwaita-gtk4/
-cd ulauncher-adwaita-gtk4
 mkdir -p ~/.config/ulauncher/user-themes/
-cp -r src/* ~/.config/ulauncher/user-themes/
+cp -r ./ulauncher-adwaita-gtk4/src/* ~/.config/ulauncher/user-themes/
+rm -r ./ulauncher-adwaita-gtk4
 
 # 'Install' wallpapers
 wget 'https://512pixels.net/downloads/macos-wallpapers-6k/10-13-6k.jpg' -O macos-high-sierra.jpg
@@ -114,24 +114,28 @@ sudo mv macos-high-sierra.jpg /usr/share/backgrounds/user/macos-high-sierra.jpg
 sudo mv macos-el-capitan.jpg /usr/share/backgrounds/user/macos-el-capitan.jpg
 
 if [ $IS_PC == true ] ; then
-  sudo chmod u+x /usr/share/screen-resolution-extra/nvidia-polkit
   systemctl --user enable gamemoded && systemctl --user start gamemoded
 
-  sudo apt install -y google-chrome-stable steam lutris vkbasalt mangohud
+  sudo apt install -y google-chrome-stable steam lutris vkbasalt
 
   wget 'https://github.com/Castro-Fidel/PortProton_dpkg/releases/download/portproton_1.4-1_amd64/portproton_1.4-1_amd64.deb' -O portproton.deb
   wget 'https://github.com/benjamimgois/goverlay/releases/download/1.1.1/goverlay_1_1_1.tar.xz' -O goverlay.tar.xz
+  wget 'https://github.com/flightlessmango/MangoHud/releases/download/v0.7.2/MangoHud-0.7.2.r0.g7b80f73.tar.gz' -O mangohud.tar.gz
   wget 'https://github.com/davidbannon/libqt6pas/releases/download/v6.2.8/libqt6pas6_6.2.8-1_amd64.deb'
   wget 'https://launcher.mojang.com/download/Minecraft.deb' -O Minecraft.deb
-  wget 'https://client-updates-cdn77.badlion.net/BadlionClient' -O BadlionClient
-  wget 'https://launcherupdates.lunarclientcdn.com/Lunar%20Client-3.2.9.AppImage' -O lunarclient.appimage
+  wget 'https://client-updates-cdn77.badlion.net/BadlionClient' -O BadlionClient.AppImage
+  wget 'https://launcherupdates.lunarclientcdn.com/Lunar%20Client-3.2.9.AppImage' -O LunarClient.AppImage
 
-  chmod u+x lunarclient.appimage
-  chmod u+x BadlionClient
-  sudo mv lunarclient.appimage /opt/
-  sudo mv BadlionClient /opt/
+  chmod +x BadlionClient.AppImage
+  chmod +x LunarClient.AppImage
+
+  mkdir -p /home/$USER_NAME/Applications
+
+  mv ./*.AppImage /home/$USER_NAME/Applications/
 
   sudo tar -xvf goverlay.tar.xz -C /opt/
+  tar -xvzf mangohud.tar.gz -C ./mangohud/
+  ./mangohud/mangohud-setup.sh
 
   sudo apt install -y ./*.deb
 
@@ -140,8 +144,7 @@ if [ $IS_PC == true ] ; then
   touch /home/$USER_NAME/.local/share/applications/LunarClient.desktop
 
   echo \
-  '
-  [Desktop Entry]
+  "[Desktop Entry]
   Type=Application
   Name=Goverlay
   Icon=goverlay
@@ -149,43 +152,37 @@ if [ $IS_PC == true ] ; then
   Exec=/opt/goverlay
   Encoding=UTF-8
   Terminal=false
-  Categories=Game;
-  ' > /home/dennimi/.local/share/applications/Goverlay.desktop
+  Categories=Game;" > /home/$USER_NAME/.local/share/applications/Goverlay.desktop
+
   echo \
-  '
-  [Desktop Entry]
+  "[Desktop Entry]
   Type=Application
   Name=Badlion Client
   Icon=BadlionClient
   Comment=The Best All-in-One Minecraft Mod Library.
-  Exec=/opt/BadlionClient
+  Exec=/home/${$USER_NAME}/Applications/BadlionClient.AppImage
   Encoding=UTF-8
   Terminal=false
-  Categories=Game;
-  ' > /home/dennimi/.local/share/applications/BadlionClient.desktop
+  Categories=Game;" > /home/$USER_NAME/.local/share/applications/BadlionClient.desktop
+
   echo \
-  '
-  [Desktop Entry]
+  "[Desktop Entry]
   Type=Application
   Name=Lunar Client
   Icon=lunarclient
   Comment=The #1 Free Minecraft Client.
-  Exec=/opt/lunarclient.appimage
+  Exec=/home/${$USER_NAME}/Applications/LunarClient.AppImage
   Encoding=UTF-8
   Terminal=false
-  Categories=Game;
-  ' > /home/dennimi/.local/share/applications/LunarClient.desktop
+  Categories=Game;" > /home/$USER_NAME/.local/share/applications/LunarClient.desktop
 
-  chmod +x /home/dennimi/.local/share/applications/Goverlay.desktop
-  chmod +x /home/dennimi/.local/share/applications/BadlionClient.desktop
-  chmod +x /home/dennimi/.local/share/applications/LunarClient.desktop
-
-  flatpak install -y flathub com.leinardi.gwe
-  flatpak update -y
+  chmod +x /home/$USER_NAME/.local/share/applications/Goverlay.desktop
+  chmod +x /home/$USER_NAME/.local/share/applications/BadlionClient.desktop
+  chmod +x /home/$USER_NAME/.local/share/applications/LunarClient.desktop
 fi
 
 # Install zshrc config
-cp -f .zshrc /home/$USER_NAME/
+cp -f .zshrc /home/$USER_NAME/.zshrc
 
 # Make ZSH as default shell
 chsh -s $(which zsh) && sudo chsh -s $(which zsh)
@@ -198,19 +195,18 @@ wget 'https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb' -O d
 wget 'https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb' -O jdk-21.deb
 wget 'https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb' -O dbeaver.deb
 wget 'https://downloads.mongodb.com/compass/mongodb-compass_1.43.4_amd64.deb' -O mongodb-compass.deb
-wget 'https://downloads.mongodb.com/compass/mongodb-mongosh_2.2.12_amd64.deb' -O mongoh.deb
+wget 'https://downloads.mongodb.com/compass/mongodb-mongosh_2.3.2_amd64.deb' -O mongoh.deb
 wget 'https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb' -O onlyoffice.deb
 wget 'https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-x86-64.deb' -O LocalSend.deb
 wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.42.5_amd64.deb' -O anytype.deb
 wget 'https://cdn.zoom.us/prod/6.1.11.1545/zoom_amd64.deb' -O zoom.deb
 wget 'https://download2.gluonhq.com/scenebuilder/22.0.0/install/linux/SceneBuilder-22.0.0.deb' -O SceneBuilder.deb
-wget 'https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community_8.0.38-1ubuntu24.04_amd64.deb' -O mysql-workbench-community.deb
 wget 'https://download.virtualbox.org/virtualbox/7.0.20/virtualbox-7.0_7.0.20-163906~Ubuntu~noble_amd64.deb' -O virtualbox.deb
 
 # Download tar.gz
 wget 'https://td.telegram.org/tlinux/tsetup.5.4.0.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
-wget 'https://dl.google.com/go/go1.23.0.linux-amd64.tar.gz' -O go.linux-amd64.tar.gz
+wget 'https://dl.google.com/go/go1.23.2.linux-amd64.tar.gz' -O go.linux-amd64.tar.gz
 wget 'https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip' -O jetbrains-mono-font.zip
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip' -O jetbrains-mono-nerdfonts-font.zip
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
@@ -219,11 +215,13 @@ curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.
 sudo apt install -y ./*.deb
 
 # Install flatpak apps
-flatpak install -y flathub com.github.eneshecan.WhatsAppForLinux
+flatpak install -y flathub com.ktechpit.whatsie
 flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y flathub com.usebottles.bottles
 flatpak install -y flathub com.skype.Client
 flatpak install -y flathub com.discordapp.Discord
+flatpak install -y flathub com.github.d4nj1.tlpui
+flatpak install -y flathub com.gluonhq.SceneBuilder
 flatpak update -y
 
 # Extract tar.gz
@@ -234,11 +232,10 @@ tar -vzxf eclipse.tar.gz
 sudo rm -rf /opt/nvim
 sudo tar -C /opt -xzf nvim-linux64.tar.gz
 
-# Create dekstop file for postman
-touch /home/$USER_NAME/.local/share/applications/postman.desktop
+# Create dekstop file for postmanflatpak install flathub com.gluonhq.SceneBuilderflatpak install flathub com.gluonhq.SceneBuilderflatpak install flathub com.gluonhq.SceneBuilderflatpak install flathub com.gluonhq.SceneBuilder
+touch /home/$USER_NAME/.local/share/applications/Postman.desktop
 echo \
-'
-[Desktop Entry]
+"[Desktop Entry]
 Encoding=UTF-8
 Version=1.0
 Type=Application
@@ -246,59 +243,74 @@ Terminal=false
 Name=Postman
 Comment=Supercharge your API workflow
 Icon=postman
-Exec="/opt/Postman/Postman"
-Categories=Development;
-' > /home/dennimi/.local/share/applications/Goverlay.desktop
+Exec=/opt/Postman/Postman
+Categories=Development;" > /home/$USER_NAME/.local/share/applications/Postman.desktop
 
 # Download & install AppImages
-wget 'https://download.kde.org/stable/krita/5.2.2/krita-5.2.2-x86_64.appimage' -O krita.appimage
-wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux" -O bitwarden.appimage
-chmod u+x krita.appimage
-chmod u+x bitwarden.appimage
-sudo mv krita.appimage /opt/
-sudo mv bitwarden.appimage /opt/
+wget 'https://download.kde.org/stable/krita/5.2.2/krita-5.2.2-x86_64.appimage' -O Krita.AppImage
+wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux" -O Bitwarden.AppImage
+wget 'https://apps.webinar.ru/desktop/latest/mts-link-desktop.AppImage' -O MTSLink.AppImage
+
+chmod +x Krita.AppImage
+chmod +x Bitwarden.AppImage
+chmod +x MTSLink.AppImage
+
+mkdir -p /home/$USER_NAME/Applications
+mkdir -p /home/$USER_NAME/Applications/icons
+
+cp -r ./icons/* /home/$USER_NAME/Applications/icons/
+
+mv ./*.AppImage /home/$USER_NAME/Applications/
 
 # Add menu entries for appimage programs
-touch /home/dennimi/.local/share/applications/Bitwarden.desktop
-touch /home/dennimi/.local/share/applications/Krita.desktop
+touch /home/$USER_NAME/.local/share/applications/Bitwarden.desktop
+touch /home/$USER_NAME/.local/share/applications/Krita.desktop
+touch /home/$USER_NAME/.local/share/applications/MTSLink.desktop
 
 echo \
-'[Desktop Entry]
+$(printf
+"[Desktop Entry]
 Type=Application
 Name=Bitwarden
 Icon=bitwarden
 Comment=The password manager trusted by millions
-Exec=/opt/bitwarden.appimage
+Exec=/home/${USER_NAME}/Applications/Bitwarden.AppImage
 Encoding=UTF-8
 Terminal=false
-Categories=Utility;
-' > /home/dennimi/.local/share/applications/Bitwarden.desktop
+Categories=Utility;" > /home/$USER_NAME/.local/share/applications/Bitwarden.desktop
+
 echo \
-'
-[Desktop Entry]
+"[Desktop Entry]
 Type=Application
 Name=Krita
 Icon=krita
 Comment=Professional FREE and open source painting program.
-Exec=/opt/krita.appimage
+Exec=/home/${USER_NAME}/Applications/Kita.AppImage
 Encoding=UTF-8
 Terminal=false
-Categories=Graphics;
-' > /home/dennimi/.local/share/applications/Krita.desktop
+Categories=Graphics;" > /home/$USER_NAME/.local/share/applications/Krita.desktop
 
-chmod +x /home/dennimi/.local/share/applications/Bitwarden.desktop
-chmod +x /home/dennimi/.local/share/applications/Krita.desktop
+echo \
+"[Desktop Entry]
+Type=Application
+Name=MTS Link
+Icon=~/Applications/icons/mts-link-icon.png
+Comment=Экосистема сервисов для бизнес‑коммуникаций и совместной работы
+Exec=/home/${USER_NAME}/Applications/MTSLink.AppImage
+Encoding=UTF-8
+Terminal=false
+Categories=Network;" > /home/$USER_NAME/.local/share/applications/MTSLink.desktop
+
+chmod +x /home/$USER_NAME/.local/share/applications/Bitwarden.desktop
+chmod +x /home/$USER_NAME/.local/share/applications/Krita.desktop
+chmod +x /home/$USER_NAME/.local/share/applications/MTSLink.desktop
 
 # Install neovim config
 mkdir /home/$USER_NAME/.config/nvim
 git clone git@github.com:DennimiCode/NdVim.git /home/$USER_NAME/.config/nvim
 
-# Use dark theme for MySQL workbench
-git clone https://github.com/mleandrojr/mysql-workbench-dark-theme.git
-sudo mv mysql-workbench-dark-theme/code_editor.xml /usr/share/mysql-workbench/data/
-
 # Configure mssql server
-sudo /opt/mssql/bin/mssql-conf setup
+# sudo /opt/mssql/bin/mssql-conf setup
 
 # Add current user to KVM & VirtualBox groups
 sudo gpasswd -a $USER_NAME libvirt
@@ -309,7 +321,6 @@ sudo usermod -a -G libvirt $USER_NAME
 rm *.deb
 rm *.tar.gz
 rm *.tar.xz
-rm -rf mysql-workbench-dark-theme/
 
 sudo apt autoremove
 sudo apt autoclean
