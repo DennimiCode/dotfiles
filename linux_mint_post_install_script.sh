@@ -134,8 +134,8 @@ if [ $IS_PC == true ] ; then
   mv ./*.AppImage /home/$USER_NAME/Applications/
 
   sudo tar -xvf goverlay.tar.xz -C /opt/
-  tar -xvzf mangohud.tar.gz -C ./mangohud/
-  ./mangohud/mangohud-setup.sh
+  tar -xvzf mangohud.tar.gz
+  chmod +x ./MangoHud/mangohud-setup.sh && ./MangoHud/mangohud-setup.sh install
 
   sudo apt install -y ./*.deb
 
