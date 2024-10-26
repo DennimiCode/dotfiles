@@ -91,7 +91,7 @@ sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape qbittorrent 
   mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 inkscape tmux alacritty evolution-ews \
   gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla redshift \
   libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution xclip tlp \
-  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium yaru-*
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin teams-for-linux chromium piper yaru-*
 
 # Install theme, icons & cursors
 wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.1/macOS.tar.xz' -O macOS.tar.xz
@@ -102,8 +102,8 @@ papirus-folders -C green --theme Papirus-Dark
 
 # Install Ulauncher theme
 git clone https://github.com/lighttigerXIV/ulauncher-adwaita-gtk4/
-mkdir -p ~/.config/ulauncher/user-themes/
-cp -r ./ulauncher-adwaita-gtk4/src/* ~/.config/ulauncher/user-themes/
+mkdir -p /home/$USER_NAME/.config/ulauncher/user-themes/
+cp -r ./ulauncher-adwaita-gtk4/src/* /home/$USER_NAME/.config/ulauncher/user-themes/
 rm -r ./ulauncher-adwaita-gtk4
 
 # 'Install' wallpapers
@@ -118,8 +118,8 @@ if [ $IS_PC == true ] ; then
 
   sudo apt install -y google-chrome-stable steam lutris vkbasalt
 
-  wget 'https://github.com/Castro-Fidel/PortProton_dpkg/releases/download/portproton_1.4-1_amd64/portproton_1.4-1_amd64.deb' -O portproton.deb
-  wget 'https://github.com/benjamimgois/goverlay/releases/download/1.1.1/goverlay_1_1_1.tar.xz' -O goverlay.tar.xz
+  wget 'https://github.com/Castro-Fidel/PortProton_dpkg/releases/download/portproton_1.7-3_amd64/portproton_1.7-3_amd64.deb' -O portproton.deb
+  wget 'https://github.com/benjamimgois/goverlay/releases/download/1.2/goverlay.tar.xz' -O goverlay.tar.xz
   wget 'https://github.com/flightlessmango/MangoHud/releases/download/v0.7.2/MangoHud-0.7.2.r0.g7b80f73.tar.gz' -O mangohud.tar.gz
   wget 'https://github.com/davidbannon/libqt6pas/releases/download/v6.2.8/libqt6pas6_6.2.8-1_amd64.deb'
   wget 'https://launcher.mojang.com/download/Minecraft.deb' -O Minecraft.deb
@@ -160,7 +160,7 @@ if [ $IS_PC == true ] ; then
   Name=Badlion Client
   Icon=BadlionClient
   Comment=The Best All-in-One Minecraft Mod Library.
-  Exec=/home/${$USER_NAME}/Applications/BadlionClient.AppImage
+  Exec=/home/${USER_NAME}/Applications/BadlionClient.AppImage
   Encoding=UTF-8
   Terminal=false
   Categories=Game;" > /home/$USER_NAME/.local/share/applications/BadlionClient.desktop
@@ -171,7 +171,7 @@ if [ $IS_PC == true ] ; then
   Name=Lunar Client
   Icon=lunarclient
   Comment=The #1 Free Minecraft Client.
-  Exec=/home/${$USER_NAME}/Applications/LunarClient.AppImage
+  Exec=/home/${USER_NAME}/Applications/LunarClient.AppImage
   Encoding=UTF-8
   Terminal=false
   Categories=Game;" > /home/$USER_NAME/.local/share/applications/LunarClient.desktop
@@ -228,11 +228,9 @@ flatpak update -y
 sudo tar -vxf telegram.tar.xz -C /opt/
 sudo tar -vzxf postman.tar.gz -C /opt/
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.linux-amd64.tar.gz
-tar -vzxf eclipse.tar.gz
-sudo rm -rf /opt/nvim
-sudo tar -C /opt -xzf nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim && sudo tar -C /opt -xzf nvim-linux64.tar.gz
 
-# Create dekstop file for postmanflatpak install flathub com.gluonhq.SceneBuilderflatpak install flathub com.gluonhq.SceneBuilderflatpak install flathub com.gluonhq.SceneBuilderflatpak install flathub com.gluonhq.SceneBuilder
+# Create dekstop file for postman
 touch /home/$USER_NAME/.local/share/applications/Postman.desktop
 echo \
 "[Desktop Entry]
@@ -268,7 +266,6 @@ touch /home/$USER_NAME/.local/share/applications/Krita.desktop
 touch /home/$USER_NAME/.local/share/applications/MTSLink.desktop
 
 echo \
-$(printf
 "[Desktop Entry]
 Type=Application
 Name=Bitwarden
@@ -294,7 +291,7 @@ echo \
 "[Desktop Entry]
 Type=Application
 Name=MTS Link
-Icon=~/Applications/icons/mts-link-icon.png
+Icon=/home/${USER_NAME}/Applications/icons/mts-link-icon.png
 Comment=Экосистема сервисов для бизнес‑коммуникаций и совместной работы
 Exec=/home/${USER_NAME}/Applications/MTSLink.AppImage
 Encoding=UTF-8
@@ -306,8 +303,18 @@ chmod +x /home/$USER_NAME/.local/share/applications/Krita.desktop
 chmod +x /home/$USER_NAME/.local/share/applications/MTSLink.desktop
 
 # Install neovim config
-mkdir /home/$USER_NAME/.config/nvim
+mkdir -p /home/$USER_NAME/.config/nvim
 git clone git@github.com:DennimiCode/NdVim.git /home/$USER_NAME/.config/nvim
+
+# Install Alacritty terminal config
+mkdir -p /home/$USER_NAME/.config/alacritty
+cp ./alacritty.toml /home/$USER_NAME/.config/alacritty/
+
+# Install Tmux config
+cp -f ./.tmux.conf /home/$USER_NAME/.tmux.conf
+
+# Install ideavim config (VIM mode plugin for JetBrains IDEs)
+cp -f ./.ideavimrc /home/$USER_NAME/.ideavimrc
 
 # Configure mssql server
 # sudo /opt/mssql/bin/mssql-conf setup
