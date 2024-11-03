@@ -16,7 +16,7 @@ source ~/.zplug/init.zsh
 # Theme
 zplug romkatv/powerlevel10k, as:theme
 
-# Aliases
+# Aliases plugin
 zplug "robbyrussell/oh-my-zsh", as:plugin, use:"lib/*.zsh"
 
 # Plugins
@@ -39,33 +39,33 @@ zplug "MichaelAquilina/zsh-you-should-use"
 zplug check || zplug install
 zplug load
 
-alias g=git
-alias gpl="git pull"
-alias gst="git status"
-alias gcl="git clone"
-alias ga="git add"
+# Aliases
 alias nv=nvim
 alias vi=nvim
 alias vim=nvim
 alias ai="sudo apt install"
-alias au="sudo apt update"
+alias aupd="sudo apt update"
 alias ar="sudo apt autoremove --purge"
+alias aupg="sudo apt upgrade"
 alias adu="sudo apt dist-upgrade"
 alias afu="sudo apt full-upgrade"
+alias nupd="sudo nala update"
+alias nupg="sudo nala upgrade"
+alias ni="sudo nala install"
+alias nr="sudo nala remove --purge"
+alias nar="sudo nala autoremove --purge"
 alias fu="flatpak update"
 alias fin="flatpak install"
-alias ls="ls --color"
-alias l="lsd --date '+%d.%m.%Y %H:%M' -lah"
+alias full-upgrade="sudo nala update && sudo nala upgrade -y && flatpak update -y"
+alias ls="ls -alc --color"
 alias tmux='tmux -2'
 
+# Add some paths to PATH var
 export PATH=~/.cargo/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export PATH="$PATH:/opt/nvim-linux64/bin"
 
+# Use NeoVim as default editor
 export EDITOR="/opt/nvim-linux64/bin/nvim"
 export VISUAL="/opt/nvim-linux64/bin/nvim"
 export SUDO_EDITOR="/opt/nvim-linux64/bin/nvim"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/toxblh/.sdkman"
-[[ -s "/home/toxblh/.sdkman/bin/sdkman-init.sh" ]] && source "/home/toxblh/.sdkman/bin/sdkman-init.sh"
