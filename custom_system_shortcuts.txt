@@ -1,3 +1,0 @@
-Open system monitor (gnome-system-monitor) Ctrl+Shift+Escape
-Run dialog () Super+R
-Toggle Looking Glass () Alt+F2
