@@ -1,12 +1,18 @@
 #!/bin/bash
 
 USER_NAME=$(whoami)
-IS_PC=false
 PC_ARCH=$(dpkg --print-architecture)
 UBUNTU_CODENAME=$(source /etc/os-release && echo $UBUNTU_CODENAME)
 UBUNTU_VERSION="24.04"
 UBUNTU_DISTRO_NAME="ubuntu"
 NODEJS_VERSION=20
+IS_PC=false
+
+# Exit from script if ran as root
+if [[ $USER_NAME == "root" ]]; then
+  echo ERROR: "Do not run this script as root user"
+  exit 1
+fi
 
 # Setup this PC as gaming or not
 read -p "Is it PC (PC/Laptop for games)? (y/N): " PC_CONFIRM
@@ -97,7 +103,7 @@ sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape qbittorrent 
 # Install theme, icons & cursors
 wget 'https://github.com/ful1e5/apple_cursor/releases/download/v2.0.1/macOS.tar.xz' -O macOS.tar.xz
 sudo tar -vxf macOS.tar.xz -C /usr/share/icons/
-# Install & upply papirus folders
+# Install & apply papirus folders
 wget -qO- https://git.io/papirus-folders-install | sh
 papirus-folders -C green --theme Papirus-Dark
 
@@ -283,7 +289,7 @@ Type=Application
 Name=Krita
 Icon=krita
 Comment=Professional FREE and open source painting program.
-Exec=/home/${USER_NAME}/Applications/Kita.AppImage
+Exec=/home/${USER_NAME}/Applications/Krita.AppImage
 Encoding=UTF-8
 Terminal=false
 Categories=Graphics;" > /home/$USER_NAME/.local/share/applications/Krita.desktop
