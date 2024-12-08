@@ -5,55 +5,46 @@ oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/easy-term.omp.json" | Invok
 # for `choco` will not function.
 # See https://ch0.co/tab-completion for details.
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile))
-{
+if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
+}
+
+if ((Get-module "git-aliases")) {
+  Import-Module git-aliases -DisableNameChecking
+} else {
+  Install-Module -Name git-aliases -AllowClobber
 }
 
 New-Alias vim nvim
 New-Alias vi nvim
 New-Alias g git
-function gst
-{
-  git status
-}
-function wu
-{
+
+# Winget aliases
+function wu {
   winget update
 }
-function wid([string]$softwareId)
-{
+
+function wid([string]$softwareId) {
   winget install --id $softwareId
 }
-function wi
-{
+
+function wi {
   winget install
 }
-function wfu
-{
+
+function wfu {
   winget upgrade --all
 }
-function wiu([string]$softwareId)
-{
+
+function wiu([string]$softwareId) {
   winget upgrade --id $softwareId
 }
-function poweroff
-{
+
+# System aliases
+function poweroff {
   shutdown /s
 }
-function reboot
-{
+
+function reboot {
   shutdown /r
-}
-function gcl([string]$repoUrl)
-{
-  git clone $repoUrl
-}
-function ga([string]$file)
-{
-  git add $file
-}
-function gpl
-{
-  git pull
 }
