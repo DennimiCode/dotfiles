@@ -123,9 +123,9 @@ flatpak install -y flathub com.discordapp.Discord
 flatpak install -y flathub com.github.d4nj1.tlpui
 
 # Download native pre-build applications
-wget 'https://td.telegram.org/tlinux/tsetup.5.4.0.tar.xz' -O telegram.tar.xz
+wget 'https://td.telegram.org/tlinux/tsetup.5.10.3.tar.xz' -O telegram.tar.xz
 wget 'https://dl.pstmn.io/download/latest/linux_64' -O postman.tar.gz
-wget 'https://dl.google.com/go/go1.23.2.linux-amd64.tar.gz' -O go.linux-amd64.tar.gz
+wget 'https://dl.google.com/go/go1.23.5.linux-amd64.tar.gz' -O go.linux-amd64.tar.gz
 wget 'https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz' -O nvim-linux64.tar.gz
 
 # "Install" native pre-build applications
@@ -138,12 +138,12 @@ sudo rm -rf /opt/nvim && sudo tar -C /opt -xzf nvim-linux64.tar.gz
 wget 'https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb' -O docker-desktop.deb
 wget 'https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb' -O jdk-21.deb
 wget 'https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb' -O dbeaver.deb
-wget 'https://downloads.mongodb.com/compass/mongodb-compass_1.43.4_amd64.deb' -O mongodb-compass.deb
-wget 'https://downloads.mongodb.com/compass/mongodb-mongosh_2.3.2_amd64.deb' -O mongoh.deb
+wget 'https://downloads.mongodb.com/compass/mongodb-compass_1.45.1_amd64.deb' -O mongodb-compass.deb
+wget 'https://downloads.mongodb.com/compass/mongodb-mongosh_2.3.8_amd64.deb' -O mongoh.deb
 wget 'https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb' -O onlyoffice.deb
-wget 'https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-1.15.4-linux-x86-64.deb' -O LocalSend.deb
-wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.42.5_amd64.deb' -O anytype.deb
-wget 'https://cdn.zoom.us/prod/6.1.11.1545/zoom_amd64.deb' -O zoom.deb
+wget 'https://github.com/localsend/localsend/releases/download/v1.16.1/LocalSend-1.16.1-linux-x86-64.deb' -O LocalSend.deb
+wget 'https://anytype-release.fra1.cdn.digitaloceanspaces.com/anytype_0.44.0_amd64.deb' -O anytype.deb
+wget 'https://zoom.us/client/6.3.6.6315/zoom_amd64.deb' -O zoom.deb
 wget 'https://download2.gluonhq.com/scenebuilder/22.0.0/install/linux/SceneBuilder-23.0.1.deb' -O SceneBuilder.deb
 
 # Install DEB applications
@@ -167,7 +167,7 @@ Categories=Development;" > /home/$USER_NAME/.local/share/applications/Postman.de
 chmod +x /home/$USER_NAME/.local/share/applications/Postman.desktop
 
 # Download & install AppImage programs
-wget 'https://download.kde.org/stable/krita/5.2.2/krita-5.2.2-x86_64.appimage' -O Krita.AppImage
+wget 'https://download.kde.org/stable/krita/5.2.6/krita-5.2.6-x86_64.appimage' -O Krita.AppImage
 wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux" -O Bitwarden.AppImage
 wget 'https://apps.webinar.ru/desktop/latest/mts-link-desktop.AppImage' -O MTSLink.AppImage
 
