@@ -52,8 +52,9 @@ if [ $IS_ADD_CHROME == true ] ; then
 fi
 
 # Add Teams-for-Linux repository
+sudo mkdir -p /etc/apt/keyrings
 sudo wget -qO /etc/apt/keyrings/teams-for-linux.asc https://repo.teamsforlinux.de/teams-for-linux.asc
-echo "deb [arch=$PC_ARCH signed-by=/etc/apt/keyrings/teams-for-linux.asc] https://repo.teamsforlinux.de/debian/ stable main" | \
+echo "deb [signed-by=/etc/apt/keyrings/teams-for-linux.asc arch=$PC_ARCH] https://repo.teamsforlinux.de/debian/ stable main" | \
   sudo tee /etc/apt/sources.list.d/teams-for-linux-packages.list
 
 # Add NodeJS repository
