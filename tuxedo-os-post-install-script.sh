@@ -103,7 +103,7 @@ sudo apt update
 sudo apt install -y zsh code sqlitebrowser obs-studio gimp inkscape qbittorrent remmina chromium teams-for-linux\
   mongodb-org postgresql postgresql-contrib mysql-server mysql-client dotnet8 inkscape tmux evolution-ews piper \
   gdebi gcc g++ clangd clang python3 python3-pip python3-venv nodejs git build-essential fastfetch filezilla nala \
-  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution tlp acpi \
+  libssl-dev libffi-dev python3-dev qemu-kvm libvirt-daemon-system libvirt-clients virt-manager evolution acpi \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin wl-clipboard
 
 # Install google chrome if user want it
@@ -120,7 +120,6 @@ flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y flathub com.usebottles.bottles
 flatpak install -y flathub com.skype.Client
 flatpak install -y flathub com.discordapp.Discord
-flatpak install -y flathub com.github.d4nj1.tlpui
 
 # Download native pre-build applications
 wget 'https://td.telegram.org/tlinux/tsetup.5.10.3.tar.xz' -O telegram.tar.xz
