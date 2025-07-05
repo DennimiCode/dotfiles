@@ -1,15 +1,20 @@
-if not test -f ~/.config/fish/functions/fisher.fish
-    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish \
-        | source && fisher install jorgebucaran/fisher
+if status is-interactive
+    set fish_greeting
 
-    tide configure --auto --style=Rainbow --prompt_colors='True color' --show_time='12-hour format' \
+    # Check if fisher is installed
+    if not functions -q fisher
+        echo "Installing Fisher plugin manager..."
+        curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+
+        fisher install ilancosman/tide@v6
+        fisher install patrickf1/fzf.fish
+        fisher install jhillyerd/plugin-git
+
+        tide configure --auto --style=Rainbow --prompt_colors='True color' --show_time='12-hour format' \
         --rainbow_prompt_separators=Angled --powerline_prompt_heads=Sharp --powerline_prompt_tails=Flat \
         --powerline_prompt_style='Two lines, frame' --prompt_connection=Disconnected --powerline_right_prompt_frame=No \
         --prompt_connection_andor_frame_color=Lightest --prompt_spacing=Compact --icons='Many icons' --transient=No
-end
-
-if status is-interactive
-    set fish_greeting
+    end
 end
 
 alias ls="lsd"
