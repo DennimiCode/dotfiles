@@ -1,0 +1,92 @@
+" Vim settings
+set clipboard+=unnamedplus
+set clipboard+=ideaput
+set scrolloff=8
+set showmode
+set showcmd
+set incsearch
+set timeoutlen=500
+set undofile=true
+set nobackup
+set updatetime=100
+set nocompatible
+set relativenumber
+set cursorline
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+filetype plugin indent on
+let mapleader = " "
+
+" Mappings
+sethandler <C-j> a:vim
+sethandler <C-k> a:vim
+sethandler <C-h> a:vim
+sethandler <C-l> a:vim
+sethandler <C-\> a:vim
+sethandler <A-\> a:vim
+" Navigation
+inoremap <silent> jj <ESC>
+nnoremap <C-k> <c-w>k
+nnoremap <C-j> <c-w>j
+nnoremap <C-h> <c-w>h
+nnoremap <C-l> <c-w>l
+map <leader>q <Action>(CloseContent)
+" Tab navigation
+nnoremap <Tab> :tabnext<CR>
+nnoremap <S-Tab> :tabprev<CR>
+map <leader>X <Action>(CloseAllToTheRight)
+" Popup navigation
+imap <A-j> <Action>(EditorDown)
+imap <A-k> <Action>(EditorUp)
+" Jump between methods
+map [[ <Action>(MethodUp)
+map ]] <Action>(MethodDown)
+" Git windows
+map <leader>gc <Action>(CheckinProject)
+map <leader>gs <Action>(ActivateVersionControlToolWindow)
+map <leader>gb <Action>(Git.Branches)
+" Debug
+map <leader>dt <Action>(ToggleLineBreakpoint)
+map <F5> <Action>(Debug)
+map <F6> <Action>(Run)
+map <F10> <Action>(StepOver)
+map <F11> <Action>(StepInto)
+map <F12> <Action>(StepOut)
+" LSP
+map <F2> <Action>(RenameElement)
+map <leader>lf <Action>(ReformatCode)
+map <leader>la <Action>(ShowIntentionActions)
+map <leader>lk <Action>(QuickJavaDoc)
+map <leader>lo <Action>(OptimizeImports)
+map <leader>ld <Action>(GotoDeclaration)
+map <leader>lp <Action>(ParameterInfo)
+map <leader>rm <Action>(ExtractMethod)
+map <leader>rv <Action>(IntroduceVariable)
+map <leader>rf <Action>(IntroduceField)
+map <leader>rs <Action>(ChangeSignature)
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+" Window splits
+map <A-S-\> <Action>(SplitVertically)
+map <A-\> <Action>(SplitHorizontally)
+" Open NERDTree (use q to exit)
+map <leader>e :NERDTreeToggle<CR>
+" Disable highlight
+map <leader>h :nohlsearch<CR>
+" Update IdeaVim config
+map <C-S-o> <Action>(IdeaVim.ReloadVimRc.reload)
+" Multiple cursor
+map <C-Up> <Action>(EditorCloneCaretAbove)
+map <C-Down> <Action>(EditorCloneCaretBelow)
+" Paste multiple
+map <leader>p <Action>(PasteMultiple)
+" Open terminal (but not close)
+map <C-\> <Action>(ActivateTerminalToolWindow)
+
+" Plugins
+set which-key
+set nerdtree
+set highlightedyank
+set surround
+set commentary
