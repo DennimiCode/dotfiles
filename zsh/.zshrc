@@ -1,11 +1,12 @@
-export TERM="xterm-256color"
-export KWIN_TRIPLE_BUFFER=1
-export LC_ALL=en_US.UTF-8
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host user dir)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator vcs battery time)
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito'
+export TERM="xterm-256color"
+export LC_ALL=en_US.UTF-8
 
 # ZPlug
 if [[ ! -d ~/.zplug ]];then
@@ -36,36 +37,35 @@ zplug "zdharma/fast-syntax-highlighting"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "MichaelAquilina/zsh-you-should-use"
+
 zplug check || zplug install
 zplug load
 
 # Aliases
-alias nv=nvim
-alias vi=nvim
-alias vim=nvim
-alias ai="sudo apt install"
-alias aupd="sudo apt update"
-alias ar="sudo apt autoremove --purge"
-alias aupg="sudo apt upgrade"
-alias adu="sudo apt dist-upgrade"
-alias afu="sudo apt full-upgrade"
-alias nupd="sudo nala update"
-alias nupg="sudo nala upgrade"
-alias ni="sudo nala install"
-alias nr="sudo nala remove --purge"
-alias nar="sudo nala autoremove --purge"
+alias ls="lsd"
+
+alias nv="nvim"
+alias vi="nvim"
+alias vim="nvim"
+
+alias dnfupd="sudo dnf update --refresh"
+alias dnfi="sudo dnf install"
+alias dnfr="sudo dnf remove"
+alias dnfca="sudo dnf clean all"
+alias full-upgrade="sudo dnf update --refresh -y; flatpak update -y"
+
 alias fu="flatpak update"
 alias fin="flatpak install"
-alias full-upgrade="sudo nala update && sudo nala upgrade -y && flatpak update -y"
-alias ls="ls -alc --color"
-alias tmux='tmux -2'
 
-# Add some paths to PATH var
-export PATH=~/.cargo/bin:$PATH
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:/opt/nvim/bin
+alias cddesk="cd ~/Desktop/"
+alias cddown="cd ~/Downloads/"
+
+alias tmux="tmux -2"
 
 # Use NeoVim as default editor
 export EDITOR="/opt/nvim/bin"
 export VISUAL="/opt/nvim/bin"
 export SUDO_EDITOR="/opt/nvim/bin/nvim"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
