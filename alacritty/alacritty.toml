@@ -1,5 +1,5 @@
 [window]
-blur = true
+# blur = true
 dynamic_title = true
 decorations = "Full"
 opacity = 0.95
