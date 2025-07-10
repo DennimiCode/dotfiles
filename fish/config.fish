@@ -23,6 +23,7 @@ alias ls="lsd"
 alias nv="nvim"
 alias vi="nvim"
 alias vim="nvim"
+alias nvc="cd $HOME/.config/nvim | nvim"
 
 alias dnfupd="sudo dnf update --refresh"
 alias dnfi="sudo dnf install"
